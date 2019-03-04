@@ -40,7 +40,6 @@ from tensorflow.python.ops import array_ops
 from tensorflow.python.ops import init_ops
 from tensorflow.python.ops import resource_variable_ops
 from tensorflow.python.ops import variables
-#from tensorflow.python.ops import partitioned_variables
 from tensorflow.python.platform import tf_logging as logging
 from tensorflow.python.util import function_utils
 from tensorflow.python.util import tf_contextlib
@@ -364,7 +363,6 @@ class _VariableStore(object):
     """
     if os.environ.get("SLICING_THRESHOLD") is not None:
       if "weights" in name and "affine" in name:
-        #slices = reduce(lambda x, y: x * y, shape) // 12500000
         slices = reduce(lambda x, y: x * y, shape) // int(os.environ.get("SLICING_THRESHOLD"))
         if partitioner is None and slices > 1:
           def fixed_size_partitioner(num_shards, axis=0):
